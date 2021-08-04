@@ -1,0 +1,14 @@
+{% extends '@email/default/notification/body.html.twig' %}
+
+{% block content %}
+    New comment for event {{ data.event_name }}
+    Email: {{ data.comment_email }}<br />
+    <p>
+        {{ data.comment }}
+    </p>
+{% endblock %}
+
+{% block action %}
+    <spacer size="16"></spacer>
+    <button href="{{ url('comment_confirmed', { id: data.comment_id }) }}">Accept</button>
+{% endblock %}

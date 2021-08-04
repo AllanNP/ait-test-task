@@ -1,0 +1,34 @@
+version: '3.7'
+
+services:
+  nginx:
+    image: nginx:latest
+    ports:
+        - "80:80"
+        - "443:443"
+    volumes:
+        - ./images/nginx/hosts/:/etc/nginx/conf.d:cached
+        - ./www/:/var/www:cached
+        - ./logs:/var/log/nginx:cached
+    links:
+        - php
+
+  php:
+      build: ./images/php
+      links:
+          - database
+      volumes:
+          - ./www:/var/www:cached
+
+  database:
+    image: postgres:13-alpine
+    environment:
+      POSTGRES_USER: main
+      POSTGRES_PASSWORD: main
+      POSTGRES_DB: main
+    ports:
+      - 5432:5432
+
+  mailer:
+    image: schickling/mailcatcher
+    ports: [1025, 1080]
