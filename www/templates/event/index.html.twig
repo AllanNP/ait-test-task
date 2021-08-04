@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Events list{% endblock %}
+
+{% block body %}
+    <h2>Events list!</h2>
+    <div>
+        {% for event in events %}
+            <p>
+                <a href="/events/{{ event.id }}">
+                    <span>{{ event.name }}</span>
+                </a>
+                <br>
+                <span>{{ event.place }}</span>
+                <br>
+                <span> {{ event.date|format_datetime('medium', 'short') }}</span>
+                {% if event.image %}
+                    <img src="{{ asset('images/' ~ event.image) }}">
+                {% endif %}
+            </p>
+        {% endfor %}
+    </div>
+{% endblock %}

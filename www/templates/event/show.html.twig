@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ event.name }}{% endblock %}
+
+{% block body %}
+    <h2>{{ event.name }}</h2>
+    <p>{{ event.place }}</p>
+    <p>{{ event.date|format_datetime('medium', 'short') }}</p>
+    <p>
+        {{ event.description|raw }}
+    </p>
+    <p>
+        {% for eventImage in event.slider %}
+            <img src="{{ asset('images/' ~ eventImage.image) }}">
+        {% endfor %}
+    </p>
+
+    {% if comments|length > 0 %}
+        {% for comment in comments %}
+            <h4>{{ comment.author.email }}</h4>
+            <p>{{ comment.comment }}</p>
+        {% endfor %}
+    {% else %}
+        <div>No comments.</div>
+    {% endif %}
+    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+        {{ form(comment_form) }}
+    {% endif %}
+{% endblock %}
